@@ -9,6 +9,7 @@ use App\Repository\PaymentRepository;
 use App\Validator\PaymentValidator;
 use App\Entity\Payment;
 use App\Entity\User;
+use Symfony\Component\Uid\Uuid;
 
 class PaymentService extends APIService
 {
@@ -33,6 +34,7 @@ class PaymentService extends APIService
     {
         foreach ($payments as &$payment)
             $payment = [
+                'uuid'          => $payment->getUuid(),
                 'username'      => $payment->getUser()->getUsername(),
                 'credentials'   => $payment->getCredentials(),
                 'amount'        => $payment->getAmount(),
@@ -54,10 +56,38 @@ class PaymentService extends APIService
         return $this->paymentRepository->find($id);
     }
 
+    public function update(array $data): void
+    {
+        $validated = $this->paymentValidator->validate($data, "PUT");
+        $messages = $this->paymentValidator->getMessages();
+
+        if (!$validated)
+        {
+            $this->setCode(400);
+            $this->setMessage($messages);
+            return;
+        }
+
+        $payment = $this->paymentRepository->findOneBy(['uuid' => $data['uuid']]);
+
+        if (!$payment)
+        {
+            $this->setCode(400);
+            $this->setMessage("uuid: Payment was not found");
+            return;
+        }
+        else
+        {
+            $payment->setStatus($data['status']);
+            $this->save($payment);
+            $serialized = $this->serialize([$payment]);
+            $this->setMessage($serialized);
+        }
+    }
 
     public function post(array $data, User $user = null): void
     {
-        $validated = $this->paymentValidator->validate($data);
+        $validated = $this->paymentValidator->validate($data, "POST");
         $messages = $this->paymentValidator->getMessages();
         
         if (!$user)
@@ -78,6 +108,7 @@ class PaymentService extends APIService
         $payment->setAmount($data['amount']);
         $payment->setCurrency($data['currency']);
         $payment->setStatus($data['status']);
+        $payment->setUuid(Uuid::v5(Uuid::v4(), serialize($payment)));
 
         $serialized = $this->serialize([$payment]);
         $this->setMessage($serialized);

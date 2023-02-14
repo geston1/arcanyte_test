@@ -8,16 +8,18 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class PaymentValidator
 {
-    private $validator;
+    private ValidatorInterface $validator;
 
-    private $constraints;
+    private Assert\Collection $postConstraints;
 
-    private $violationList;
+    private Assert\Collection $putConstraints;
+
+    private ConstraintViolationList $violationList;
 
     public function __construct(ValidatorInterface $validator) 
     {
         $this->validator = $validator;
-        $this->constraints = new Assert\Collection([
+        $this->postConstraints = new Assert\Collection([
             'username' => [
                 new Assert\Type(['type' => 'string']),
                 new Assert\NotNull()
@@ -40,19 +42,36 @@ class PaymentValidator
                 new Assert\Type(['type' => 'bool']),
             ]
         ]);
+
+        $this->putConstraints = new Assert\Collection([
+            'uuid' => [
+                new Assert\NotNull(),
+            ],
+            'status' => [
+                new Assert\Type(['type' => 'bool']),
+            ]
+        ]);
     }
     
     public function getMessages(): array
     {
         foreach ($this->violationList as $violation)
             $messages[] = sprintf("%s: %s", trim($violation->getPropertyPath(),'[]'), $violation->getMessage());
+        unset($this->violationList);
 
         return $messages ?? [];
     }
 
-    public function validate(array $data): bool
+    public function validate(array $data, string $method)
     {
-        $this->violationList = $this->validator->validate($data, $this->constraints);
-        return $this->violationList->count() == 0;
+        switch ($method)
+        {
+            case 'POST':
+                $this->violationList = $this->validator->validate($data, $this->postConstraints);
+                return $this->violationList->count() == 0;
+            case 'PUT':
+                $this->violationList = $this->validator->validate($data, $this->putConstraints);
+                return $this->violationList->count() == 0;
+        }
     }
 }

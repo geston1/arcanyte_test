@@ -35,6 +35,14 @@ class PaymentController extends AbstractController
         return $paymentService->getResponse();
     }
 
+    #[Route('/api/payment', name: 'app_api_payment_update', methods: ['PUT'])]
+    public function put(Request $request, PaymentService $paymentService): JsonResponse
+    {
+        $content = json_decode($request->getContent(), true);
+        $paymentService->update($content);
+        return $paymentService->getResponse();
+    }
+
     #[Route('/api/payment', name: 'app_api_payment_add', methods: ['POST'])]
     public function post(Request $request, PaymentService $paymentService, UserService $userService): JsonResponse
     {
