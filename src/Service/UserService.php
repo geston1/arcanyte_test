@@ -11,11 +11,11 @@ use App\Service\APIService;
 
 class UserService extends APIService
 {
-    private $userRepository;
+    private UserRepository $userRepository;
 
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
     
-    private $passwordHasher;
+    private UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(
         UserRepository $userRepository,
@@ -32,7 +32,7 @@ class UserService extends APIService
         foreach ($users as &$user)
             $user = $user->getUsername();
         unset($user);
-        
+
         return $users;
     }
 

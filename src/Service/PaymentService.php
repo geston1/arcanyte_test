@@ -12,11 +12,11 @@ use App\Entity\User;
 
 class PaymentService extends APIService
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    private $paymentRepository;
+    private PaymentRepository $paymentRepository;
 
-    private $paymentValidator;
+    private PaymentValidator $paymentValidator;
 
     public function __construct(
         PaymentRepository $paymentRepository,
@@ -29,7 +29,7 @@ class PaymentService extends APIService
         $this->paymentValidator     = $paymentValidator;
     }
 
-    public  function serialize(array $payments): array
+    public function serialize(array $payments): array
     {
         foreach ($payments as &$payment)
             $payment = [

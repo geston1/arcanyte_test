@@ -6,9 +6,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class APIService
 {
-    protected $message = "";
+    protected array|string $message = [];
 
-    protected $code = 200;
+    protected int $code = 200;
 
     public function setMessage(array $message = []): void
     {
