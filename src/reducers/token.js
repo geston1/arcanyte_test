@@ -1,6 +1,7 @@
 import {GET_TOKEN, REMOVE_TOKEN} from '../types'
 
 const initialState = {
+    type: '',
     token: undefined,
     error: undefined,
 };

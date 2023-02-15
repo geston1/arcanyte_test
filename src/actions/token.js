@@ -1,5 +1,5 @@
 import httpClient from '../http/httpClient'
-import {GET_TOKEN, REMOVE_TOKEN} from '../types'
+import {GET_TOKEN, REMOVE_TOKEN, API_ERROR} from '../types'
 
 
 const getToken = (username, password) => (dispatch, getState) => {
@@ -10,7 +10,7 @@ const getToken = (username, password) => (dispatch, getState) => {
         if (error.response.data.code == 401)
             dispatch({ type: GET_TOKEN, error: "Неверный логин/пароль" });
         else
-            dispatch({ type: GET_TOKEN, error: "Техническая ошибка, обратитесь к администратору" });
+            dispatch({ type: API_ERROR, error: "Техническая ошибка, обратитесь к администратору" });
     });
 }
 
