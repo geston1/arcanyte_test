@@ -30,7 +30,7 @@ const PaymentRow = ({payment}) =>
             <td className="px-6 py-4">
                 <div className="relative inline-block text-left">
                     <div>
-                        <button type="button" className={`${buttonBckgrnd} inline-flex w-40 justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100`} id="menu-button" aria-expanded="true" aria-haspopup="true" onClick={onStatusFocus}>
+                        <button type="button" className={`${buttonBckgrnd} inline-flex w-40 justify-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100`} id="menu-button" aria-expanded="true" aria-haspopup="true" onClick={onStatusFocus}>
                         {payment.status}
 
                         <svg className="-mr-1 ml-auto h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
