@@ -23,12 +23,14 @@ const PaymentAdd = () => {
     const [fields, setFields] = useState({
         username: users[0] ?? '',
         credentials: '',
-        amount: 0,
+        amount: 1,
         currency: currency[0].symbol ?? '',
 
     })
 
     const onChangeEvent = (event) => {
+        if (event.target.name == "amount")
+            event.currentTarget.value = Math.min(event.currentTarget.value, 0.01);
         setFields({
             ...fields,
             [event.target.name]: event.currentTarget.value
@@ -72,7 +74,7 @@ const PaymentAdd = () => {
                 </div>
                 <div className="inline-block relative w-full">
                     <label htmlFor="amount" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2">Сумма</label>
-                    <input onChange={onChangeEvent} min={1} name="amount" type="number" id="amount" className="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required/>
+                    <input onChange={onChangeEvent} min={1} value={fields.amount} name="amount" type="number" id="amount" className="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required/>
                 </div>
                 <div className="inline-block relative w-full">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2" htmlFor="currency">
