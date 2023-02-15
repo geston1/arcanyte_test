@@ -54,4 +54,8 @@ const addPayment = (username, credentials, amount, currency) => (dispatch, getSt
     })
 }
 
-export {changePaymentStatus, getPayments, addPayment}
+const clearType = () => (dispatch, getState) => {
+    dispatch({type: undefined});
+}
+
+export {changePaymentStatus, getPayments, addPayment, clearType}

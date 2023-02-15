@@ -1,15 +1,15 @@
 import React, { useEffect } from "react"
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import getUsers from "../actions/users";
+import { useDispatch } from "react-redux"
+import getUsers from "../actions/users"
 import useUsers from "../hooks/useUsers"
 import {currency} from "../types/currency"
-import { useState } from "react";
-import useToken from "../hooks/useToken";
-import { useNavigate } from "react-router-dom";
-import { addPayment } from "../actions/payments";
-import usePayments from "../hooks/usePayments";
-import { ADD_PAYMENT } from "../types";
+import { useState } from "react"
+import useToken from "../hooks/useToken"
+import { useNavigate } from "react-router-dom"
+import { addPayment } from "../actions/payments"
+import usePayments from "../hooks/usePayments"
+import { ADD_PAYMENT } from "../types"
+import {clearType} from "../actions/payments"
 
 const PaymentAdd = () => {
 
@@ -42,6 +42,7 @@ const PaymentAdd = () => {
 
     const redirectBack = () =>
     {
+        dispatch(clearType());
         navigate("/payments");
     }
 
@@ -71,7 +72,7 @@ const PaymentAdd = () => {
                 </div>
                 <div className="inline-block relative w-full">
                     <label htmlFor="amount" className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2">Сумма</label>
-                    <input onChange={onChangeEvent} name="amount" type="number" id="amount" className="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required/>
+                    <input onChange={onChangeEvent} min={1} name="amount" type="number" id="amount" className="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required/>
                 </div>
                 <div className="inline-block relative w-full">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2" htmlFor="currency">
