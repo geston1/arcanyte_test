@@ -29,7 +29,7 @@ class PaymentValidator
                 new Assert\NotNull()
             ],
             'amount' => [
-                new Assert\Type(['type' => 'float']),
+                new Assert\Type(['type' => 'numeric']),
                 new Assert\NotNull(),
                 new Assert\GreaterThan(['value' => 0.1])
             ],
